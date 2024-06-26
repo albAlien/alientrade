@@ -1,0 +1,29 @@
+[Unit]
+Description=Freqtrade Daemon
+After=network.target
+
+[Service]
+# Set WorkingDirectory and ExecStart to your file paths accordingly
+# NOTE: %h will be resolved to /home/<username>
+WorkingDirectory=%h/albanian-alien/alientrade
+ExecStart=/usr/bin/freqtrade trade -c ./user_data/config.json --strategy AlienStrategy --sd-notify
+
+#Restart=always
+#Restart=on-failure
+
+# Note that we use Type=notify here
+Type=notify
+
+# Currently required if Type=notify
+NotifyAccess=all
+
+StartLimitInterval=5min
+StartLimitBurst=10
+
+TimeoutStartSec=2min
+
+# Use here (process_throttle_secs * 2) or longer time interval
+WatchdogSec=40
+
+[Install]
+WantedBy=default.target
